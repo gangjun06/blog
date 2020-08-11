@@ -1,4 +1,4 @@
-baseurl = "https://gangjun06.github.io/blog"
+baseurl = "https://blog.gangjun.dev"
 languageCode = "en-us"
 theme = "terminal"
 paginate = 5
