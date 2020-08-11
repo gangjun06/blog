@@ -28,6 +28,16 @@
   </url>
   
   <url>
+    <loc>https://blog.gangjun.dev/tags/go/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.gangjun.dev/posts/go/gorm_tutorial/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.gangjun.dev/posts/hello/</loc>
     <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>

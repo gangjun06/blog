@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>gorm을 이용하여 데이터베이스 사용하기 :: Gangjun&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="gorm이란 go의 ORM중 하나입니다. gorm 라이브러리를 통하여 mysql, sqlite등의 데이터베이스를 편하게 사용할 수 있습니다
+ 이 글은 gorm.io의 내용을 이해하기쉽게 번역/정리하여 가져온 글입니다. 자세한 내용은 gorm.io웹사이트를 참고해주세요
+ 목차  목차 설치하기 데이터베이스 연결하기 struct 작성하기 오토 마이그레이션  설치하기 go get -u github.com/jinzhu/gorm 데이터베이스 연결하기 gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다
+open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것
+go Sqlite    package main import ( &amp;#34;github." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://blog.gangjun.dev/posts/go/gorm_tutorial/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://blog.gangjun.dev/css/style.min.css">
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.gangjun.dev/css/color/green.min.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://blog.gangjun.dev/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://blog.gangjun.dev/img/favicon/green.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Gangjun" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="gorm을 이용하여 데이터베이스 사용하기 :: Gangjun&#39;s Blog">
+<meta property="og:description" content="Go언어에서 gorm라이브러리를 사용하여 mysql, sqlite 등을 사용하는 방법을 알려드립니다." />
+<meta property="og:url" content="https://blog.gangjun.dev/posts/go/gorm_tutorial/" />
+<meta property="og:site_name" content="gorm을 이용하여 데이터베이스 사용하기" />
+
+  
+    <meta property="og:image" content="https://blog.gangjun.dev/img/favicon/green.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-08-11 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Gangjun Dev
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="https://gangjun.dev">About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/gangjun06">github</a></li>
+        
+      
+        
+          <li><a href="https://patreon.com/gangjun">patreon</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="https://gangjun.dev">About</a></li>
+      
+    
+      
+        <li><a href="https://github.com/gangjun06">github</a></li>
+      
+    
+      
+        <li><a href="https://patreon.com/gangjun">patreon</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://blog.gangjun.dev/posts/go/gorm_tutorial/">gorm을 이용하여 데이터베이스 사용하기</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-08-11 
+      </span>
+    
+    
+    <span class="post-author">:: Gangjun</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://blog.gangjun.dev/tags/go/">go</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <p><a href="https://gorm.io">gorm</a>이란 go의 ORM중 하나입니다. <a href="https://gorm.io">gorm</a> 라이브러리를 통하여 mysql, sqlite등의 데이터베이스를 편하게 사용할 수 있습니다</p>
+<blockquote>
+<p>이 글은 gorm.io의 내용을 이해하기쉽게 번역/정리하여 가져온 글입니다. 자세한 내용은 gorm.io웹사이트를 참고해주세요</p>
+</blockquote>
+<h1 id="목차">목차<a href="#목차" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<ul>
+<li><a href="#%EB%AA%A9%EC%B0%A8">목차</a></li>
+<li><a href="#%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0">설치하기</a></li>
+<li><a href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%97%B0%EA%B2%B0%ED%95%98%EA%B8%B0">데이터베이스 연결하기</a></li>
+<li><a href="#struct-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0">struct 작성하기</a></li>
+<li><a href="#%EC%98%A4%ED%86%A0-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98">오토 마이그레이션</a></li>
+</ul>
+<h1 id="설치하기">설치하기<a href="#설치하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -u github.com/jinzhu/gorm
+</code></pre></div><h1 id="데이터베이스-연결하기">데이터베이스 연결하기<a href="#데이터베이스-연결하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다</p>
+<p><strong>open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것</strong></p>
+
+
+
+  <div class="collapsable-code">
+    <input id="581796342" type="checkbox" checked />
+    <label for="581796342">
+      <span class="collapsable-code__language">go</span>
+      <span class="collapsable-code__title">Sqlite</span>
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-go" ><code>
+package main
+
+import (
+  &#34;github.com/jinzhu/gorm&#34;
+  _ &#34;github.com/jinzhu/gorm/dialects/sqlite&#34;
+)
+
+func main() {
+  db, err := gorm.Open(&#34;sqlite3&#34;, &#34;test.db&#34;)
+  defer db.Close()
+}
+</code></pre>
+  </div>
+
+
+
+
+
+  <div class="collapsable-code">
+    <input id="591823764" type="checkbox" checked />
+    <label for="591823764">
+      <span class="collapsable-code__language">go</span>
+      <span class="collapsable-code__title">Mysql / MariaDB</span>
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-go" ><code>
+import (
+  &#34;github.com/jinzhu/gorm&#34;
+  _ &#34;github.com/jinzhu/gorm/dialects/mysql&#34;
+)
+
+func main() {
+  // 예시: admin:1234@localhost/test_table?charset=utf8&amp;parseTime=True&amp;loc=Local
+  db, err := gorm.Open(&#34;mysql&#34;, &#34;&lt;user&gt;:&lt;password&gt;@tcp(&lt;hostname&gt;:&lt;port&gt;)/&lt;dbname&gt;?charset=utf8&amp;parseTime=True&amp;loc=Local&#34;)
+  defer db.Close()
+}
+</code></pre>
+  </div>
+
+
+
+
+
+  <div class="collapsable-code">
+    <input id="541976283" type="checkbox" checked />
+    <label for="541976283">
+      <span class="collapsable-code__language">go</span>
+      <span class="collapsable-code__title">PostgreSQL</span>
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-go" ><code>
+import (
+  &#34;github.com/jinzhu/gorm&#34;
+  _ &#34;github.com/jinzhu/gorm/dialects/postgres&#34;
+)
+
+func main() {
+  db, err := gorm.Open(&#34;postgres&#34;, &#34;host=myhost port=myport user=gorm dbname=gorm password=mypassword&#34;)
+  defer db.Close()
+}
+</code></pre>
+  </div>
+
+
+<h1 id="struct-작성하기">struct 작성하기<a href="#struct-작성하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>gorm을 통하여 DB에 접근하려면 먼저 Struct을 작성해주어야 합니다.</p>
+<p>다음 태그들을 사용할 수 있습니다</p>
+<table>
+<thead>
+<tr>
+<th>태그이름</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Column</td>
+<td>열 이름을 원하는것으로 지정할 수 있습니다</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>타입을 지정합니다</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>열의 크기를 지정합니다. 기본값:255</td>
+</tr>
+<tr>
+<td>PRIMARY_KEY</td>
+<td>열을 primary_key로 지정합니다</td>
+</tr>
+<tr>
+<td>UNIQUE</td>
+<td>열을 unique로 지정합니다</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>기본값을 지정합니다</td>
+</tr>
+<tr>
+<td>NOT_NULL</td>
+<td>NULL값이 들어오지 못하도록 합니다</td>
+</tr>
+<tr>
+<td>AUTO_INCREMENT</td>
+<td>자동증가를 시켜줍니다</td>
+</tr>
+<tr>
+<td>INDEX</td>
+<td>INDEX를 생성합니다</td>
+</tr>
+</tbody>
+</table>
+
+
+
+  <div class="collapsable-code">
+    <input id="587432169" type="checkbox"  />
+    <label for="587432169">
+      <span class="collapsable-code__language">go</span>
+      <span class="collapsable-code__title">예제</span>
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-go" ><code>
+type User struct {
+    ID        uint `gorm:&#34;primary_key;unique_index;not null;&#34;` 
+    Name      string `gorm:&#34;type:varchar(30)&#34;`
+    Email     string `gorm:&#34;type:varchar(60);unique_index&#34;`
+    Job       string `gorm:&#34;type:varchar(30);default:&#39;students&#39;&#34;`
+    JoinAt    *time.Time
+}
+</code></pre>
+  </div>
+
+
+<h1 id="오토-마이그레이션">오토 마이그레이션<a href="#오토-마이그레이션" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>DB에 연결한 후, 테이블이 생성되있지 않으면 struct을 바탕으로 자동으로 생성해 줍니다</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="946153827" type="checkbox"  />
+    <label for="946153827">
+      <span class="collapsable-code__language">go</span>
+      <span class="collapsable-code__title">AutoMigrate 예제</span>
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-go" ><code>
+package main
+
+import (
+  &#34;log&#34;
+
+  &#34;github.com/jinzhu/gorm&#34;
+  _ &#34;github.com/jinzhu/gorm/dialects/sqlite&#34;
+)
+
+type foo struct {
+  Bar   string
+}
+  
+
+func main() {
+  db, err := gorm.Open(&#34;sqlite3&#34;, &#34;test.db&#34;)
+  if err != nil{
+    log.Fatal(&#34;Error While open&#34;)
+  }
+  var models = []interface{}{&amp;foo{}}
+	dbConnection.AutoMigrate(models...)
+  defer db.Close()
+}
+```
+</code></pre>
+  </div>
+
+
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        <span class="button previous">
+            <a href="https://blog.gangjun.dev/posts/linux/bspwm_keys/">
+                <span class="button__icon">←</span>
+                <span class="button__text">Bspwm 단축키들</span>
+            </a>
+        </span>
+        
+        
+        <span class="button next">
+            <a href="https://blog.gangjun.dev/posts/hello/">
+                <span class="button__text">Hello, World!</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gangjun-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://blog.gangjun.dev/js/menu.js"></script>
+<script src="https://blog.gangjun.dev/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
