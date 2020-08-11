@@ -41,9 +41,8 @@
       <guid>https://blog.gangjun.dev/posts/go/gorm_tutorial/</guid>
       <description>gorm이란 go의 ORM중 하나입니다. gorm 라이브러리를 통하여 mysql, sqlite등의 데이터베이스를 편하게 사용할 수 있습니다
  이 글은 gorm.io의 내용을 이해하기쉽게 번역/정리하여 가져온 글입니다. 자세한 내용은 gorm.io웹사이트를 참고해주세요
- 목차  목차 설치하기 데이터베이스 연결하기 struct 작성하기 오토 마이그레이션  설치하기 go get -u github.com/jinzhu/gorm 데이터베이스 연결하기 gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다
-open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것
-go Sqlite    package main import ( &amp;#34;github.</description>
+ 목차  목차 설치하기 데이터베이스 연결하기 struct 작성하기 오토 마이그레이션 생성 쿼리  Where 사용법 Order/Limit 사용법   수정  일괄수정 Update 사용   삭제  설치하기 go get -u github.com/jinzhu/gorm 데이터베이스 연결하기 gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다
+open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것</description>
     </item>
     
     <item>
