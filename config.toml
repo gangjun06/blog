@@ -3,6 +3,8 @@ languageCode = "en-us"
 theme = "terminal"
 paginate = 5
 
+disqusShortname = "gangjun-blog"
+
 [params]
   # dir name of your main content (default is `content/posts`).
   # the list of set content will show up on your index page (baseurl).
@@ -47,7 +49,7 @@ paginate = 5
   [languages.en]
     languageName = "Korean"
     title = "Gangjun's Blog"
-    subtitle = "A simple, retro theme for Hugo"
+    subtitle = "Developer Gangjun's Blog"
     owner = ""
     keywords = ""
     copyright = ""

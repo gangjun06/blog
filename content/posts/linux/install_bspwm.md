@@ -15,9 +15,9 @@ tags = ["linux", "bspwm", "arch"]
 
 # 목차
 
-- [Bspwm을 왜 써야할까?](#Bspwm을-왜-써야할까?)
-- [설치하기](#설치하기)
-- [꾸미기](#꾸미기)
+1. [Bspwm을 왜 써야할까?](#Bspwm을-왜-써야할까?)
+2. [설치하기](#설치하기)
+3. [꾸미기](#꾸미기)
 
 # Bspwm을 왜 써야할까?
 
@@ -32,6 +32,7 @@ tags = ["linux", "bspwm", "arch"]
 # gui 환경을 키기위해 필요한것들
 xorg-server
 xorg-xinit
+xdg-utils
 xterm
 
 bspwm
@@ -76,7 +77,7 @@ super + @space
 ## xinit설정
 
 startx로 gui를 실행하였을때 bspwm이 실행될 수 있도록 .xinitrc를 변경해줍니다
-:
+
 ~/.xinitrc
 ```
 맨 아래 if문 밑에 있는 내용들 다 지우기,
@@ -96,8 +97,10 @@ exec bspwm
 xstart
 ```
 
-아무것도 안뜬다고 걱정하지 마세요! super+enter 을 쳐서 터미널을 열고
-super+space를 쳐서 앱 메뉴를 열 수 있습니다. 만약 열리지 않는다면 어딘가 설정을 잘못하였을 가능성이 높습니다. 제대로 설정되었다면 super+alt+q를 눌러 다시 쉘로 돌아갈 수 있습니다
+아무것도 안뜬다고 걱정하지 마세요! `super+enter` 을 쳐서 터미널을 열고
+`super+space`를 쳐서 앱 메뉴를 열 수 있습니다. 만약 열리지 않는다면 어딘가 설정을 잘못하였을 가능성이 높습니다.
+
+제대로 설정되었다면 `super+alt+q`를 눌러 다시 쉘로 돌아갈 수 있습니다
 
 ## 배경화면 설정
 아까 받은 feh라는 프로그램을 통하여 배경화면을 설정할 수 있습니다
