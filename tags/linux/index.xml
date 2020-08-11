@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Gangjun&#39;s Blog</title>
-    <link>https://blog.gangjun.dev/posts/</link>
-    <description>Recent content in Posts on Gangjun&#39;s Blog</description>
+    <title>linux on Gangjun&#39;s Blog</title>
+    <link>https://blog.gangjun.dev/tags/linux/</link>
+    <description>Recent content in linux on Gangjun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 11 Aug 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://blog.gangjun.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.gangjun.dev/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -31,16 +31,6 @@
       <guid>https://blog.gangjun.dev/posts/linux/bspwm_keys/</guid>
       <description> /usr/share/doc/bspwm/examples/sxhkdrc 의 설정을 바탕으로 작성되어 있습니다
     단축키 설명     super + enter 터미널 열기   super + alt + q 로그아웃   super + space 창 열기   super + w 창 닫기   super + 1~9 작업공간 전환   super + h,j,k,l 창 전환   super + shift +h,j,k,l 창 바꿔치기   super + s,t,f 창 모드 전환(Floating, Tiling, Full)   super + alt + shift + h,j,k,l 창 크기 조정(Tiling일때)   super + 화살표 창 위치 이동(Floating일때)   super + alt + shift + 화살표 창 크기 조정 (floating일때)   super + 마우스 좌클릭 드래그 창 위치 변경   super + 마우스 우클릭 드래그 창 크기 조정    </description>
-    </item>
-    
-    <item>
-      <title>Hello, World!</title>
-      <link>https://blog.gangjun.dev/posts/hello/</link>
-      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.gangjun.dev/posts/hello/</guid>
-      <description>hugo로 구축한 블로그 입니다.
- hugo: website hosting: netlify theme: terminal  </description>
     </item>
     
   </channel>

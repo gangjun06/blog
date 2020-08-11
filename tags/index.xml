@@ -6,9 +6,37 @@
     <description>Recent content in Tags on Gangjun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Tue, 11 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.gangjun.dev/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>arch</title>
+      <link>https://blog.gangjun.dev/tags/arch/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.gangjun.dev/tags/arch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bspwm</title>
+      <link>https://blog.gangjun.dev/tags/bspwm/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.gangjun.dev/tags/bspwm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://blog.gangjun.dev/tags/linux/</link>
+      <pubDate>Tue, 11 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.gangjun.dev/tags/linux/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

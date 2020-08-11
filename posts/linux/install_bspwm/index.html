@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Archlinux에 bspwm 설치하기 :: Gangjun&#39;s Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="아직 작성중인 글입니다
+ 아치리눅스는 기본적으로 GUI가 깔려있지 않습니다. 따라서 사용자가 직접 원하는 환경을 설정해주어야 합니다. 일반적으로 많이 쓰는 데스크톱 환경은 xfce, kde, gnome 등이 있습니다 하지만 이 글에서는 데스크톱 환경이 아닌 윈도우 매니저인 Bspwm 을 설치하는 방법을 알려드리도록 하겠습니다
+목차  Bspwm을 왜 써야할까? 설치하기 꾸미기  Bspwm을 왜 써야할까? 설치하기 패키지 설치하기 다음 패키지들을 설치합니다 (aur도 섞여 있으므로 yay등을 설치하여 사용하는것을 추천드립니다)
+# gui 환경을 키기위해 필요한것들 xorg-server xorg-xinit xterm bspwm sxhkd (키보드 단축키 프로그램, bspwm과 같이 깔아야함) rofi (프로그램 실행기) polybar (상단바) termite (추천하는 터미널) feh (이미지뷰어, 배경화면 설정위해 필요) xorg-xsetroot nemo (파일 브라우저) # 한글 폰트/입력기 ttf-unfonts-core-ibx ibus (bspwm 설치후 ibus-setup 실행하여 한글폰트 설정할것) ibus-hangul 다음 명령어로 한번에 설치할 수 있습니다" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://blog.gangjun.dev/posts/linux/install_bspwm/" />
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://blog.gangjun.dev/css/style.min.css">
+
+
+  
+  
+  <link rel="stylesheet" href="https://blog.gangjun.dev/css/color/green.min.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://blog.gangjun.dev/img/apple-touch-icon-144-precomposed.png">
+
+  <link rel="shortcut icon" href="https://blog.gangjun.dev/img/favicon/green.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Gangjun" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Archlinux에 bspwm 설치하기 :: Gangjun&#39;s Blog">
+<meta property="og:description" content="Archlinux 설치후 Tiling window manager인 bspwm을 설정하는 방법을 알아봅시다" />
+<meta property="og:url" content="https://blog.gangjun.dev/posts/linux/install_bspwm/" />
+<meta property="og:site_name" content="Archlinux에 bspwm 설치하기" />
+
+  
+    <meta property="og:image" content="https://blog.gangjun.dev/img/favicon/green.png">
+  
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2020-08-11 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    Gangjun Dev
+  </div>
+</a>
+
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  
+    <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="https://gangjun.dev">About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/gangjun06">github</a></li>
+        
+      
+        
+          <li><a href="https://patreon.com/gangjun">patreon</a></li>
+        
+      
+      
+    
+
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="https://gangjun.dev">About</a></li>
+      
+    
+      
+        <li><a href="https://github.com/gangjun06">github</a></li>
+      
+    
+      
+        <li><a href="https://patreon.com/gangjun">patreon</a></li>
+      
+    
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://blog.gangjun.dev/posts/linux/install_bspwm/">Archlinux에 bspwm 설치하기</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2020-08-11 
+      </span>
+    
+    
+    <span class="post-author">:: Gangjun</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://blog.gangjun.dev/tags/linux/">linux</a>&nbsp;
+    
+    #<a href="https://blog.gangjun.dev/tags/bspwm/">bspwm</a>&nbsp;
+    
+    #<a href="https://blog.gangjun.dev/tags/arch/">arch</a>&nbsp;
+    
+  </span>
+  
+
+  
+
+  
+
+  <div class="post-content"><div>
+        <blockquote>
+<p>아직 작성중인 글입니다</p>
+</blockquote>
+<p>아치리눅스는 기본적으로 GUI가 깔려있지 않습니다.
+따라서 사용자가 직접 원하는 환경을 설정해주어야 합니다.
+일반적으로 많이 쓰는 데스크톱 환경은 xfce, kde, gnome 등이 있습니다
+하지만 이 글에서는 데스크톱 환경이 아닌 윈도우 매니저인 Bspwm 을 설치하는 방법을 알려드리도록 하겠습니다</p>
+<h1 id="목차">목차<a href="#목차" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<ul>
+<li><a href="#Bspwm%EC%9D%84-%EC%99%9C-%EC%8D%A8%EC%95%BC%ED%95%A0%EA%B9%8C?">Bspwm을 왜 써야할까?</a></li>
+<li><a href="#%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0">설치하기</a></li>
+<li><a href="#%EA%BE%B8%EB%AF%B8%EA%B8%B0">꾸미기</a></li>
+</ul>
+<h1 id="bspwm을-왜-써야할까">Bspwm을 왜 써야할까?<a href="#bspwm을-왜-써야할까" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h1 id="설치하기">설치하기<a href="#설치하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<h2 id="패키지-설치하기">패키지 설치하기<a href="#패키지-설치하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>다음 패키지들을 설치합니다
+(aur도 섞여 있으므로 <a href="https://github.com/Jguer/yay">yay</a>등을 설치하여 사용하는것을 추천드립니다)</p>
+<pre><code># gui 환경을 키기위해 필요한것들
+xorg-server
+xorg-xinit
+xterm
+
+bspwm
+sxhkd (키보드 단축키 프로그램, bspwm과 같이 깔아야함)
+rofi (프로그램 실행기)
+polybar (상단바)
+termite (추천하는 터미널)
+feh (이미지뷰어, 배경화면 설정위해 필요)
+xorg-xsetroot
+nemo (파일 브라우저)
+
+# 한글 폰트/입력기
+ttf-unfonts-core-ibx
+ibus (bspwm 설치후 ibus-setup 실행하여 한글폰트 설정할것)
+ibus-hangul
+</code></pre><p>다음 명령어로 한번에 설치할 수 있습니다</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yay -S xorg-server xorg-xinit xterm bspwm sxhkd rofi termite feh xorg-xsetroot ttf-unfonts-core-ibx ibus ibus-hangul
+</code></pre></div><h2 id="bspwm-설정파일">bspwm 설정파일<a href="#bspwm-설정파일" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>bspwm의 default설정파일을 .config폴더 아래로 가져옵니다</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/bspwmrc
+cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkd/sxhkdrc
+</code></pre></div><p>sxhkd의 터미널실행, 프로그램 실행기를 변경합니다</p>
+<p>~/.config/sxhkd/sxhkdrc</p>
+<pre><code>다음 향목들을 변경
+super + enter
+    urxvt -&gt; termite
+super + @space
+    dmenu_run -&gt; rofi -show drun
+</code></pre><h2 id="xinit설정">xinit설정<a href="#xinit설정" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>startx로 gui를 실행하였을때 bspwm이 실행될 수 있도록 .xinitrc를 변경해줍니다
+:
+~/.xinitrc</p>
+<pre><code>맨 아래 if문 밑에 있는 내용들 다 지우기,
+다음과 같이 입력
+
+...
+sxhkd &amp;
+ibus-daemon &amp;
+xsetroot -cursor_name left_ptr
+exec bspwm
+</code></pre><p>자 이제 기본적인 설정이 끝났습니다!
+터미널에서 아래의 명령어를 쳐서 GUI환경을 띄울 수 있습니다</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">xstart
+</code></pre></div><p>아무것도 안뜬다고 걱정하지 마세요! super+enter 을 쳐서 터미널을 열고
+super+space를 쳐서 앱 메뉴를 열 수 있습니다. 만약 열리지 않는다면 어딘가 설정을 잘못하였을 가능성이 높습니다. 제대로 설정되었다면 super+alt+q를 눌러 다시 쉘로 돌아갈 수 있습니다</p>
+<h2 id="배경화면-설정">배경화면 설정<a href="#배경화면-설정" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>아까 받은 feh라는 프로그램을 통하여 배경화면을 설정할 수 있습니다
+설정파일 상단에 다음과 같은 명령어를 넣습니다</p>
+<p>~/.config/bspwm/bspwmrc</p>
+<pre><code>feh --bg-fill &lt;이미지 경로&gt;
+</code></pre><h2 id="polybar-설정">polybar 설정<a href="#polybar-설정" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+
+      </div></div>
+
+  
+  
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="https://blog.gangjun.dev/posts/linux/bspwm_keys/">
+                <span class="button__text">Bspwm 단축키들</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2020 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script src="https://blog.gangjun.dev/js/menu.js"></script>
+<script src="https://blog.gangjun.dev/js/prism.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

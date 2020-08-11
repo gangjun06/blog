@@ -3,6 +3,26 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.gangjun.dev/tags/arch/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.gangjun.dev/posts/linux/install_bspwm/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.gangjun.dev/tags/bspwm/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.gangjun.dev/posts/linux/bspwm_keys/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.gangjun.dev/</loc>
     <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>
@@ -13,16 +33,22 @@
   </url>
   
   <url>
+    <loc>https://blog.gangjun.dev/tags/linux/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.gangjun.dev/posts/</loc>
     <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.gangjun.dev/categories/</loc>
+    <loc>https://blog.gangjun.dev/tags/</loc>
+    <lastmod>2020-08-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.gangjun.dev/tags/</loc>
+    <loc>https://blog.gangjun.dev/categories/</loc>
   </url>
   
 </urlset>
