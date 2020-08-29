@@ -8,8 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="gorm이란 go의 ORM중 하나입니다. gorm 라이브러리를 통하여 mysql, sqlite등의 데이터베이스를 편하게 사용할 수 있습니다
  이 글은 gorm.io의 내용을 이해하기쉽게 번역/정리하여 가져온 글입니다. 자세한 내용은 gorm.io웹사이트를 참고해주세요
- 목차  목차 설치하기 데이터베이스 연결하기 struct 작성하기 오토 마이그레이션 생성 쿼리  Where 사용법 Order/Limit 사용법   수정  일괄수정 Update 사용   삭제  설치하기 go get -u github.com/jinzhu/gorm 데이터베이스 연결하기 gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다
-open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것" />
+ 목차  목차 설치하기 데이터베이스 연결하기 struct 작성하기 오토 마이그레이션 생성 쿼리  Where 사용법 Order/Limit 사용법   수정  일괄수정 Update 사용   삭제  설치하기 go get -u gorm.io/gorm go get -u gorm.io/driver/sqlite 데이터베이스 연결하기 gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다" />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://blog.gangjun.dev/posts/go/gorm_tutorial/" />
@@ -194,7 +193,8 @@ open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같�
 <li><a href="#%EC%82%AD%EC%A0%9C">삭제</a></li>
 </ul>
 <h1 id="설치하기">설치하기<a href="#설치하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -u github.com/jinzhu/gorm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -u gorm.io/gorm
+go get -u gorm.io/driver/sqlite
 </code></pre></div><h1 id="데이터베이스-연결하기">데이터베이스 연결하기<a href="#데이터베이스-연결하기" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
 <p>gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다</p>
 <p><strong>open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같이 불러올것</strong></p>
@@ -202,8 +202,8 @@ open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같�
 
 
   <div class="collapsable-code">
-    <input id="186739542" type="checkbox" checked />
-    <label for="186739542">
+    <input id="142893756" type="checkbox" checked />
+    <label for="142893756">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Sqlite</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -212,12 +212,12 @@ open하는 코드에서 import시 gorm뿐만 아니라 드라이버도 꼭 같�
 package main
 
 import (
-  &#34;github.com/jinzhu/gorm&#34;
-  _ &#34;github.com/jinzhu/gorm/dialects/sqlite&#34;
+  &#34;gorm.io/driver/sqlite&#34;
+  &#34;gorm.io/gorm&#34;
 )
 
 func main() {
-  db, err := gorm.Open(&#34;sqlite3&#34;, &#34;test.db&#34;)
+  db, err := gorm.Open(sqlite.New(&#34;test.db&#34;))
   defer db.Close()
 }
 </code></pre>
@@ -228,21 +228,21 @@ func main() {
 
 
   <div class="collapsable-code">
-    <input id="971684325" type="checkbox" checked />
-    <label for="971684325">
+    <input id="698137245" type="checkbox" checked />
+    <label for="698137245">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Mysql / MariaDB</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
     </label>
     <pre class="language-go" ><code>
 import (
-  &#34;github.com/jinzhu/gorm&#34;
-  _ &#34;github.com/jinzhu/gorm/dialects/mysql&#34;
+  &#34;gorm.io/driver/mysql&#34;
+  &#34;gorm.io/gorm&#34;
 )
 
 func main() {
   // 예시: admin:1234@localhost/test_table?charset=utf8&amp;parseTime=True&amp;loc=Local
-  db, err := gorm.Open(&#34;mysql&#34;, &#34;&lt;user&gt;:&lt;password&gt;@tcp(&lt;hostname&gt;:&lt;port&gt;)/&lt;dbname&gt;?charset=utf8&amp;parseTime=True&amp;loc=Local&#34;)
+  db, err := gorm.Open(mysql.Open(&#34;&lt;user&gt;:&lt;password&gt;@tcp(&lt;hostname&gt;:&lt;port&gt;)/&lt;dbname&gt;?charset=utf8&amp;parseTime=True&amp;loc=Local&#34;), &amp;gorm.Config{})
   defer db.Close()
 }
 </code></pre>
@@ -253,20 +253,23 @@ func main() {
 
 
   <div class="collapsable-code">
-    <input id="548127963" type="checkbox" checked />
-    <label for="548127963">
+    <input id="285637941" type="checkbox" checked />
+    <label for="285637941">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">PostgreSQL</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
     </label>
     <pre class="language-go" ><code>
 import (
-  &#34;github.com/jinzhu/gorm&#34;
-  _ &#34;github.com/jinzhu/gorm/dialects/postgres&#34;
+  &#34;gorm.io/driver/postgres&#34;
+  &#34;gorm.io/gorm&#34;
 )
 
 func main() {
-  db, err := gorm.Open(&#34;postgres&#34;, &#34;host=myhost port=myport user=gorm dbname=gorm password=mypassword&#34;)
+  db, err := gorm.Open(postgres.New(postgres.Config{
+    DSN: &#34;host=myhost port=myport user=gorm dbname=gorm password=mypassword&#34;)
+    }
+  )
   defer db.Close()
 }
 </code></pre>
@@ -326,8 +329,8 @@ func main() {
 
 
   <div class="collapsable-code">
-    <input id="934217586" type="checkbox"  />
-    <label for="934217586">
+    <input id="754382619" type="checkbox"  />
+    <label for="754382619">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -351,8 +354,8 @@ type User struct {
 
 
   <div class="collapsable-code">
-    <input id="465982137" type="checkbox"  />
-    <label for="465982137">
+    <input id="269378541" type="checkbox"  />
+    <label for="269378541">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">AutoMigrate 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -363,8 +366,8 @@ package main
 import (
   &#34;log&#34;
 
-  &#34;github.com/jinzhu/gorm&#34;
-  _ &#34;github.com/jinzhu/gorm/dialects/sqlite&#34;
+  &#34;database/sql&#34;
+  &#34;gorm.io/gorm&#34;
 )
 
 type foo struct {
@@ -372,12 +375,11 @@ type foo struct {
 }
   
 func main() {
-  db, err := gorm.Open(&#34;sqlite3&#34;, &#34;test.db&#34;)
+  db, err := gorm.Open(sqlite.New(&#34;test.db&#34;))
   if err != nil{
     log.Fatal(&#34;Error While open&#34;)
   }
-  var models = []interface{}{&amp;foo{}}
-	db.AutoMigrate(models...)
+	db.AutoMigrate(&amp;foo{})
   defer db.Close()
 }
 </code></pre>
@@ -390,8 +392,8 @@ func main() {
 
 
   <div class="collapsable-code">
-    <input id="295831746" type="checkbox"  />
-    <label for="295831746">
+    <input id="382514967" type="checkbox"  />
+    <label for="382514967">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">생성 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -408,8 +410,8 @@ db.Create(&amp;user)
 
 
   <div class="collapsable-code">
-    <input id="985132764" type="checkbox"  />
-    <label for="985132764">
+    <input id="328571469" type="checkbox"  />
+    <label for="328571469">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">기본 사용법</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -444,8 +446,8 @@ db.First(&amp;user, n)
 
 
   <div class="collapsable-code">
-    <input id="384651297" type="checkbox" checked />
-    <label for="384651297">
+    <input id="158294763" type="checkbox" checked />
+    <label for="158294763">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Where 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -491,8 +493,8 @@ db.Where(&#34;created_at BETWEEN ? AND ?&#34;, lastWeek, today).Find(&amp;users)
 
 
   <div class="collapsable-code">
-    <input id="578192436" type="checkbox" checked />
-    <label for="578192436">
+    <input id="124695378" type="checkbox" checked />
+    <label for="124695378">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Where struct/map 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -518,8 +520,8 @@ db.Where([]int64{20, 21, 22}).Find(&amp;users)
 
 
   <div class="collapsable-code">
-    <input id="683749251" type="checkbox"  />
-    <label for="683749251">
+    <input id="793458612" type="checkbox"  />
+    <label for="793458612">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Order/Limit 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -540,8 +542,8 @@ db.Limit(3).Find(&amp;users)
 
 
   <div class="collapsable-code">
-    <input id="357912864" type="checkbox"  />
-    <label for="357912864">
+    <input id="423815796" type="checkbox"  />
+    <label for="423815796">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">일괄수정 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -560,8 +562,8 @@ db.Save(&amp;user)
 
 
   <div class="collapsable-code">
-    <input id="578963142" type="checkbox"  />
-    <label for="578963142">
+    <input id="589174362" type="checkbox"  />
+    <label for="589174362">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">Update 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
@@ -582,8 +584,8 @@ db.Model(&amp;user).Where(&#34;id = ?&#34;, 10).Update(user{Foo: &#34;bar&#34;})
 
 
   <div class="collapsable-code">
-    <input id="283174596" type="checkbox"  />
-    <label for="283174596">
+    <input id="495386172" type="checkbox"  />
+    <label for="495386172">
       <span class="collapsable-code__language">go</span>
       <span class="collapsable-code__title">삭제 예제</span>
       <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
