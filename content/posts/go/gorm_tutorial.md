@@ -26,7 +26,8 @@ tags = ["go"]
 - [삭제](#삭제)
 # 설치하기
 ```bash
-go get -u github.com/jinzhu/gorm
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/sqlite
 ```
 
 # 데이터베이스 연결하기
@@ -38,25 +39,25 @@ gorm.Open(DBType, Path)로 데이터베이스를 열 수 있습니다
 package main
 
 import (
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/sqlite"
+  "gorm.io/driver/sqlite"
+  "gorm.io/gorm"
 )
 
 func main() {
-  db, err := gorm.Open("sqlite3", "test.db")
+  db, err := gorm.Open(sqlite.New("test.db"))
   defer db.Close()
 }
 {{< /code >}}
 
 {{< code language="go" title="Mysql / MariaDB" isCollapsed="true" >}}
 import (
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/mysql"
+  "gorm.io/driver/mysql"
+  "gorm.io/gorm"
 )
 
 func main() {
   // 예시: admin:1234@localhost/test_table?charset=utf8&parseTime=True&loc=Local
-  db, err := gorm.Open("mysql", "<user>:<password>@tcp(<hostname>:<port>)/<dbname>?charset=utf8&parseTime=True&loc=Local")
+  db, err := gorm.Open(mysql.Open("<user>:<password>@tcp(<hostname>:<port>)/<dbname>?charset=utf8&parseTime=True&loc=Local"), &gorm.Config{})
   defer db.Close()
 }
 {{< /code >}}
@@ -64,12 +65,15 @@ func main() {
 
 {{< code language="go" title="PostgreSQL" isCollapsed="true" >}}
 import (
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/postgres"
+  "gorm.io/driver/postgres"
+  "gorm.io/gorm"
 )
 
 func main() {
-  db, err := gorm.Open("postgres", "host=myhost port=myport user=gorm dbname=gorm password=mypassword")
+  db, err := gorm.Open(postgres.New(postgres.Config{
+    DSN: "host=myhost port=myport user=gorm dbname=gorm password=mypassword")
+    }
+  )
   defer db.Close()
 }
 {{< /code >}}
@@ -113,8 +117,8 @@ package main
 import (
   "log"
 
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/sqlite"
+  "database/sql"
+  "gorm.io/gorm"
 )
 
 type foo struct {
@@ -122,12 +126,11 @@ type foo struct {
 }
   
 func main() {
-  db, err := gorm.Open("sqlite3", "test.db")
+  db, err := gorm.Open(sqlite.New("test.db"))
   if err != nil{
     log.Fatal("Error While open")
   }
-  var models = []interface{}{&foo{}}
-	db.AutoMigrate(models...)
+	db.AutoMigrate(&foo{})
   defer db.Close()
 }
 {{< /code >}}
